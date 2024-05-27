@@ -1,0 +1,186 @@
+To use Bootstrap for the navbar and ensure it remains fixed and works across all HTML pages, you can leverage Bootstrap's components and utilities. Below is the approach using Bootstrap 5:
+
+### Step 1: Include Bootstrap CSS and JS
+
+Ensure Bootstrap CSS and JS are included in all your HTML files. You can use a CDN for this purpose.
+
+**navbar.html**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-left">
+        <div class="container-fluid flex-column">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <ul class="navbar-nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Menu 1</a>
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item"><a class="nav-link" href="menu1-item1.html">Item 1</a></li>
+                        <li class="nav-item"><a class="nav-link" href="menu1-item2.html">Item 2</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Menu 2</a>
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item"><a class="nav-link" href="menu2-item1.html">Item 1</a></li>
+                        <li class="nav-item"><a class="nav-link" href="menu2-item2.html">Item 2</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
+
+### Step 2: Create Individual HTML Pages
+
+Each submenu item should have its own HTML page. These pages should embed the navbar using an `<iframe>` or server-side includes. Here's an example of how an individual page might look:
+
+**menu1-item1.html**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu 1 - Item 1</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <iframe src="navbar.html" class="col-2 p-0 border-0" style="height: 100vh;"></iframe>
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-6">
+                        <h2>Request Area 1</h2>
+                        <form id="form1">
+                            <input type="text" id="input1" class="form-control mb-2" placeholder="Input 1" required>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                    <div class="col-6">
+                        <h2>Request Area 2</h2>
+                        <form id="form2">
+                            <input type="text" id="input2" class="form-control mb-2" placeholder="Input 2" required>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <h2>Response</h2>
+                        <p id="response-area">Response will be displayed here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+### Step 3: Custom Styles (Optional)
+
+You can add custom styles to further enhance the look and feel of your page.
+
+**styles.css**
+```css
+body {
+    margin: 0;
+    padding: 0;
+}
+
+iframe {
+    width: 200px;
+    border: none;
+}
+
+.container-fluid {
+    display: flex;
+    height: 100vh;
+}
+
+.navbar.fixed-left {
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #343a40;
+    z-index: 1000;
+}
+
+.navbar-nav {
+    width: 100%;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    background-color: #495057;
+    color: white;
+}
+
+.col-10 {
+    margin-left: 200px;
+}
+```
+
+### Step 4: JavaScript for Handling Form Submission
+
+Ensure you have a JavaScript file to handle form submission and backend communication.
+
+**script.js**
+```javascript
+document.addEventListener('DOMContentLoaded', () => {
+    const form1 = document.getElementById('form1');
+    const form2 = document.getElementById('form2');
+    const responseArea = document.getElementById('response-area');
+
+    form1.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const input1 = document.getElementById('input1').value;
+        submitData(input1);
+    });
+
+    form2.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const input2 = document.getElementById('input2').value;
+        submitData(input2);
+    });
+
+    function submitData(data) {
+        fetch('/api/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            responseArea.textContent = data.response;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+```
+
+### Summary
+
+This setup uses Bootstrap for the fixed navbar and styles, ensuring it remains consistent across different pages. Each submenu item has its own HTML page with a specific layout for request and response areas, with form submissions handled via JavaScript. This ensures a user-friendly and consistent experience across the application.
