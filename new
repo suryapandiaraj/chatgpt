@@ -1,0 +1,59 @@
+To achieve this, you can use HTML and CSS. Here's a simple example:
+
+### HTML:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Divs with Hover Effect</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="box">Box 1</div>
+        <div class="box">Box 2</div>
+    </div>
+</body>
+</html>
+```
+
+### CSS (`styles.css`):
+```css
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Space between the divs */
+}
+
+.box {
+    padding: 20px;
+    text-align: center;
+    border: 1px solid transparent; /* Initially no visible border */
+    transition: border 0.3s;
+}
+
+.box:hover {
+    border: 1px solid blue; /* Blue border on hover */
+}
+```
+
+### Explanation:
+1. **HTML**: 
+   - The `container` div contains two child `box` divs.
+
+2. **CSS**:
+   - `body` is styled to use Flexbox to center its contents both horizontally and vertically.
+   - `container` is also a flex container with space between its child elements (`justify-content: space-between`) and a gap of 20px between them.
+   - `box` elements are styled with padding and centered text. Initially, their border is transparent, but when hovered over, a blue border appears with a transition effect.
+
+This will center the two boxes in the middle of
